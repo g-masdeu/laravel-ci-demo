@@ -78,6 +78,9 @@ jobs:
 
       # Pas 6: executar els tests de Laravel.
       - name: Run tests
-        # --no-coverage: no calculem cobertura (més ràpid per a una demo bàsica).
-        # (Laravel invoca PHPUnit o Pest segons la config del projecte.)
-        run: php artisan test --no-coverage
+        run: |
+          if [ -d "tests" ] && [ "$(find tests -type f -name '*.php' | wc -l)" -gt 0 ]; then
+            php artisan test --no-coverage
+          else
+            echo "No tests found — skipping test step."
+          fi
